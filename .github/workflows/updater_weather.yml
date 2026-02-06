@@ -23,14 +23,18 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+        
     - name: Install dependencies
       run: |   # '|'는 아래의 코드를 한 줄 씩 수행함을 의미
         python -m pip install --upgrade pip
         pip install requests python-dotenv
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
     - name: Run update_weather.py
       run: |
         python update_weather.py
+      env:
+        OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}   # settings의 githubaction의 repo secret에 넘겨준 변수 사용
 
     - name: Commit & Push Readme.md
       run: |
